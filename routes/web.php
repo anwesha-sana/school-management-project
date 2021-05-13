@@ -7,6 +7,8 @@ use App\Http\Controllers\backend\ProfileController;
 use App\Http\Controllers\backend\setup\StudentClassController;
 use App\Http\Controllers\backend\setup\StudentYearController;
 use App\Http\Controllers\backend\setup\StudentGroupController;
+use App\Http\Controllers\backend\setup\StudentShiftController;
+use App\Http\Controllers\backend\setup\FeeCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +73,20 @@ Route::prefix('setup')->group( function(){
     Route::post('student/group/update/{id}', [StudentGroupController::class, 'update'])->name('student.group.update');
     Route::get('student/group/delete/{id}', [StudentGroupController::class, 'delete'])->name('student.group.delete');
 
-    
+    //student shift
+    Route::get('student/shift/view', [StudentShiftController::class, 'view'])->name('student.shift.view');
+    Route::get('student/shift/add', [StudentShiftController::class, 'add'])->name('student.shift.add');
+    Route::post('student/shift/store', [StudentShiftController::class, 'store'])->name('student.shift.store');
+    Route::get('student/shift/edit/{id}', [StudentShiftController::class, 'edit'])->name('student.shift.edit');
+    Route::post('student/shift/update/{id}', [StudentShiftController::class, 'update'])->name('student.shift.update');
+    Route::get('student/shift/delete/{id}', [StudentShiftController::class, 'delete'])->name('student.shift.delete');
+    // Fee Category
+    Route::get('fee/category/view', [FeeCategoryController::class, 'view'])->name('fee.category.view');
+    Route::get('fee/category/add', [FeeCategoryController::class, 'add'])->name('fee.category.add');
+    Route::post('fee/category/store', [FeeCategoryController::class, 'store'])->name('fee.category.store');
+    Route::get('fee/category/edit/{id}', [FeeCategoryController::class, 'edit'])->name('fee.category.edit');
+    Route::post('fee/category/update/{id}', [FeeCategoryController::class, 'update'])->name('fee.category.update');
+    Route::get('fee/category/delete/{id}', [FeeCategoryController::class, 'delete'])->name('fee.category.delete');
+
 });
 
