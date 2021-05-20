@@ -10,6 +10,9 @@ use App\Http\Controllers\backend\setup\StudentGroupController;
 use App\Http\Controllers\backend\setup\StudentShiftController;
 use App\Http\Controllers\backend\setup\FeeCategoryController;
 use App\Http\Controllers\backend\setup\FeeAmountController;
+use App\Http\Controllers\backend\setup\ExamTypeController;
+use App\Http\Controllers\backend\setup\SchoolSubjectController;
+use App\Http\Controllers\backend\setup\AssignSubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,5 +100,28 @@ Route::prefix('setup')->group( function(){
     Route::post('fee/amount/update/{fee_category_id}', [FeeAmountController::class, 'update'])->name('fee.amount.update');
     Route::get('fee/amount/details/{fee_category_id}', [FeeAmountController::class, 'details'])->name('fee.amount.details');
 
+    // Exam type
+    Route::get('exam/type/view', [ExamTypeController::class, 'view'])->name('exam.type.view');
+    Route::get('exam/type/add', [ExamTypeController::class, 'add'])->name('exam.type.add');
+    Route::post('exam/type/store', [ExamTypeController::class, 'store'])->name('exam.type.store');
+    Route::get('exam/type/edit/{id}', [ExamTypeController::class, 'edit'])->name('exam.type.edit');
+    Route::post('exam/type/update/{id}', [ExamTypeController::class, 'update'])->name('exam.type.update');
+    Route::get('exam/type/delete/{id}', [ExamTypeController::class, 'delete'])->name('exam.type.delete');
+
+    //school subject
+    Route::get('school/subject/view', [SchoolSubjectController::class, 'view'])->name('school.subject.view');
+    Route::get('school/subject/add', [SchoolSubjectController::class, 'add'])->name('school.subject.add');
+    Route::post('school/subject/store', [SchoolSubjectController::class, 'store'])->name('school.subject.store');
+    Route::get('school/subject/edit/{id}', [SchoolSubjectController::class, 'edit'])->name('school.subject.edit');
+    Route::post('school/subject/update/{id}', [SchoolSubjectController::class, 'update'])->name('school.subject.update');
+    Route::get('school/subject/delete/{id}', [SchoolSubjectController::class, 'delete'])->name('school.subject.delete');
+
+    //Asign Subjects
+    Route::get('assign/subject/view', [AssignSubjectController::class, 'view'])->name('assign.subject.view');
+    Route::get('assign/subject/add', [AssignSubjectController::class, 'add'])->name('assign.subject.add');
+    Route::post('assign/subject/store', [AssignSubjectController::class, 'store'])->name('assign.subject.store');
+    Route::get('assign/subject/edit/{class_id}', [AssignSubjectController::class, 'edit'])->name('assign.subject.edit');
+    Route::post('assign/subject/update/{class_id}', [AssignSubjectController::class, 'update'])->name('assign.subject.update');
+    Route::get('assign/subject/details/{class_id}', [AssignSubjectController::class, 'details'])->name('assign.subject.details');
 });
 
