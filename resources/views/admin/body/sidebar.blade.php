@@ -29,7 +29,8 @@
 			<span>Dashboard</span>
           </a>
         </li>  
-		
+
+        @if (Auth::user()->role == 'Admin')
         <li class="treeview {{ ($prefix == '/users')?'active':'' }}">
           <a href="#">
             <i data-feather="message-circle"></i>
@@ -43,7 +44,8 @@
             <li><a href="{{ route('user.add') }}"><i class="ti-more"></i>Add User</a></li>
           </ul>
         </li> 
-		  
+		    @endif
+        
         <li class="treeview {{ ($prefix == '/profile')?'active':'' }}">
           <a href="#">
             <i data-feather="mail"></i> <span>Manage Profile</span>
@@ -85,7 +87,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('student.reg.view') }}"><i class="ti-more"></i>Student Registration</a></li>
+            <li><a href="{{ route('student.registration.view') }}"><i class="ti-more"></i>Student Registration</a></li>
             
           </ul>
         </li>

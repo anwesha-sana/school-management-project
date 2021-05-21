@@ -24,10 +24,10 @@
                                         <div class="form-group">
                                             <h5>User Role <span class="text-danger">*</span></h5>
                                             <div class="controls">
-                                                <select name="user_type" id="user_type" required class="form-control">
+                                                <select name="role" id="role" required class="form-control">
                                                     <option value="" selected="" disabled>Select Role</option>
-                                                    <option value="Admin" {{ ($get_user_details->user_type == "Admin" ? "selected" : "") }}>Admin</option>
-                                                    <option value="User" {{ ($get_user_details->user_type == "User" ? "selected" : "") }}>User</option>
+                                                    <option value="Admin" {{ ($get_user_details->role == "Admin" ? "selected" : "") }}>Admin</option>
+                                                    <option value="Operator" {{ ($get_user_details->role == "Operator" ? "selected" : "") }}>Operator</option>
                                                 </select>
                                             </div>
                                         </div>

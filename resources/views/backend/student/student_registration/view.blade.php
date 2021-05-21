@@ -15,8 +15,8 @@
 
 			 <div class="box">
 				<div class="box-header with-border">
-				  <h3 class="box-title">User List</h3>
-                  <a href="{{ route('user.add') }}" style="float:right;" class="btn btn-rounded btn-success mb-5">Add User</a>
+				  <h3 class="box-title">Student Year List</h3>
+                  <a href="{{ route('student.year.add') }}" style="float:right;" class="btn btn-rounded btn-success mb-5">Add Student Year</a>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -25,10 +25,7 @@
 						<thead>
 							<tr>
 								<th>Sl</th>
-								<th>Role</th>
 								<th>Name</th>
-								<th>Email</th>
-								<th>Code</th>
 								<th>Action</th>
 								
 							</tr>
@@ -37,14 +34,10 @@
                             @foreach($all_data as $key => $user)
 							<tr>
 								<td>{{ $key+1 }}</td>
-                                <td>{{ $user->role}}</td>
-								<td>{{ $user->name}}</td>
-								<td>{{ $user->email}}</td>
-								<td>{{ $user->code}}</td>
-
+        						<td>{{ $user->name}}</td>
 								<td>
-                                    <a href="{{ route('user.edit',$user->id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
-                                    <a href="{{ route('user.delete',$user->id) }}" class="btn btn-rounded btn-danger mb-5" id="del_btn">Delete</a>
+                                    <a href="{{ route('student.year.edit',$user->id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
+                                    <a href="{{ route('student.year.delete',$user->id) }}" class="btn btn-rounded btn-danger mb-5" id="del_btn">Delete</a>
                                 </td>
 								
 							</tr>
