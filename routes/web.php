@@ -137,6 +137,9 @@ Route::prefix('setup')->group( function(){
 
 Route::prefix('students')->group( function(){
     Route::get('/registration/view', [StudentRegistrationController::class, 'view'])->name('student.registration.view');
+    Route::get('/registration/add', [StudentRegistrationController::class, 'add'])->name('student.registration.add');
+    Route::post('/registration/store', [StudentRegistrationController::class, 'store'])->name('student.registration.store');
+    Route::get('/class/year/wise', [StudentRegistrationController::class, 'classYearWiseSearch'])->name('student.class.year.wise.data');
     
 });
 
