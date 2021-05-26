@@ -98,9 +98,11 @@
 								<td>
 								<img src="{{ (!empty($user['student']['image'])) ? url('upload/student_images/'.$user['student']['image']): url('upload/images/blank-profile-picture.png') }}" style="height:100px; width:100px; border:1px solid #000;">
 								</td>
+								<td>fdfg</td>
 								<td>
-                                    <a href="{{ route('student.year.edit',$user->id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
-                                    <a href="{{ route('student.year.delete',$user->id) }}" class="btn btn-rounded btn-danger mb-5" id="del_btn">Delete</a>
+                                    <a href="{{ route('student.registration.edit',$user->student_id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
+                                    <a href="{{ route('student.promotion',$user->student_id) }}" class="btn btn-rounded btn-success mb-5">Promotion</a>
+									<a href="{{ route('student.details',$user->student_id) }}" target="_blank" class="btn btn-rounded btn-success mb-5"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 </td>
 								
 							</tr>
@@ -140,9 +142,11 @@
 								  <td>
 								  <img src="{{ (!empty($user['student']['image'])) ? url('upload/student_images/'.$user['student']['image']): url('upload/images/blank-profile-picture.png') }}" style="height:100px; width:100px; border:1px solid #000;">
 								  </td>
+								  <td>fdfg</td>
 								  <td>
-									  <a href="{{ route('student.year.edit',$user->id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
-									  <a href="{{ route('student.year.delete',$user->id) }}" class="btn btn-rounded btn-danger mb-5" id="del_btn">Delete</a>
+									  <a href="{{ route('student.registration.edit',$user->student_id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
+									  <a href="{{ route('student.promotion',$user->student_id) }}" class="btn btn-rounded btn-success mb-5">Promotion</a>
+									  <a href="{{ route('student.details',$user->student_id) }}" target="_blank" class="btn btn-rounded btn-success mb-5"><i class="fa fa-eye" aria-hidden="true"></i></a>
 								  </td>
 								  
 							  </tr>

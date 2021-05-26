@@ -15,6 +15,7 @@ use App\Http\Controllers\backend\setup\SchoolSubjectController;
 use App\Http\Controllers\backend\setup\AssignSubjectController;
 use App\Http\Controllers\backend\setup\DesignationController;
 use App\Http\Controllers\backend\student\StudentRegistrationController;
+use App\Http\Controllers\backend\student\StudentRollController;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +141,16 @@ Route::prefix('students')->group( function(){
     Route::get('/registration/add', [StudentRegistrationController::class, 'add'])->name('student.registration.add');
     Route::post('/registration/store', [StudentRegistrationController::class, 'store'])->name('student.registration.store');
     Route::get('/class/year/wise', [StudentRegistrationController::class, 'classYearWiseSearch'])->name('student.class.year.wise.data');
+    Route::get('/registration/edit/{student_id}', [StudentRegistrationController::class, 'edit'])->name('student.registration.edit');
+    Route::post('/registration/update/{student_id}', [StudentRegistrationController::class, 'update'])->name('student.registration.update');
+    
+    Route::get('/promotion/{student_id}', [StudentRegistrationController::class, 'studentPromotion'])->name('student.promotion');
+    Route::post('/promotion/update/{student_id}', [StudentRegistrationController::class, 'studentPromotionUpdate'])->name('student.promotion.update');
+    Route::get('/details/{student_id}', [StudentRegistrationController::class, 'studentDetails'])->name('student.details');
+    // roll generate
+    Route::get('/roll/generate/view', [StudentRollController::class, 'rollGenerateView'])->name('roll.generate.view');
+    
+    Route::get('/registration/getstudents', [StudentRollController::class, 'getStudents'])->name('student.registration.getstudents');
     
 });
 

@@ -12,6 +12,7 @@ use App\Models\StudentClass;
 use App\Models\StudentGroup;
 use App\Models\StudentShift;
 use DB;
+use PDF;
 
 class StudentRegistrationController extends Controller
 {
@@ -118,4 +119,137 @@ class StudentRegistrationController extends Controller
         return view('backend.student.student_registration.view', $data);
 
     }
+    public function edit($student_id){
+        $data['class'] = StudentClass::all();
+        $data['year'] = StudentYear::all();
+        $data['group'] = StudentGroup::all();
+        $data['shifts'] = StudentShift::all();
+        $data['editData'] = AssignStudent::with(['student','discount'])->where('student_id',$student_id)->first();
+        //dd($data['editData']->toArray());
+        return view('backend.student.student_registration.edit',$data);
+    }
+    public function update($student_id, Request $request){
+        DB::transaction(function() use($request,$student_id){
+            $checkYear = StudentYear::find($request->year_id)->name;
+            $student = User::where('user_type','student')->orderBy('id','DESC')->first();
+
+            $user = User::where('id', $student_id)->first();
+            $user->name = $request->name;
+            $user->fname = $request->fname;
+            $user->mname = $request->mname;
+            $user->mobile = $request->mobile;
+            $user->address = $request->address;
+            $user->gender = $request->gender;
+            $user->religion = $request->religion;
+            $user->dob = date('Y-m-d',strtotime($request->dob));
+            
+             
+            if($request->file('image'))
+            {
+                $file = $request->file('image');
+                @unlink(public_path('upload/student_images/'.$user->image));
+                $filename = time().$file->getClientOriginalName();
+                
+                $file->move(public_path('upload/student_images/'),$filename);
+                $user['image'] = $filename;
+            }
+            $user->save(); //insert data into user table
+            
+
+            //insert data into assign_students table
+            $assign_student = AssignStudent::where('id',$request->id)->where('student_id',$student_id)->first();
+            
+            $assign_student->class_id = $request->class_id;
+            $assign_student->year_id = $request->year_id;
+            $assign_student->group_id = $request->group_id;
+            $assign_student->shift_id = $request->shift_id;
+            $assign_student->save();
+           
+
+            $dis_student = DiscountStudent::where('assign_student_id',$request->id)->first();
+        
+            $dis_student->fee_category_id = '1';
+            $dis_student->discount = $request->discount;
+            $dis_student->save();
+            
+
+        });
+        $notification = array(
+            'message' =>'Student Registration updated successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('student.registration.view')->with($notification);
+    }
+    public function studentPromotion($student_id){
+        $data['class'] = StudentClass::all();
+        $data['year'] = StudentYear::all();
+        $data['group'] = StudentGroup::all();
+        $data['shifts'] = StudentShift::all();
+        $data['editData'] = AssignStudent::with(['student','discount'])->where('student_id',$student_id)->first();
+        //dd($data['editData']->toArray());
+        return view('backend.student.student_registration.promotion',$data);
+    }
+    public function studentPromotionUpdate($student_id, Request $request){
+
+        DB::transaction(function() use($request,$student_id){
+            
+            $user = User::where('id', $student_id)->first();
+            $user->name = $request->name;
+            $user->fname = $request->fname;
+            $user->mname = $request->mname;
+            $user->mobile = $request->mobile;
+            $user->address = $request->address;
+            $user->gender = $request->gender;
+            $user->religion = $request->religion;
+            $user->dob = date('Y-m-d',strtotime($request->dob));
+            
+             
+            if($request->file('image'))
+            {
+                $file = $request->file('image');
+                @unlink(public_path('upload/student_images/'.$user->image));
+                $filename = time().$file->getClientOriginalName();
+                
+                $file->move(public_path('upload/student_images/'),$filename);
+                $user['image'] = $filename;
+            }
+            $user->save(); //insert data into user table
+
+            //insert data into assign_students table
+            $assign_student = new AssignStudent();
+            $assign_student->student_id = $student_id;
+            $assign_student->class_id = $request->class_id;
+            $assign_student->year_id = $request->year_id;
+            $assign_student->group_id = $request->group_id;
+            $assign_student->shift_id = $request->shift_id;
+            $assign_student->save();
+           
+
+            $dis_student = new DiscountStudent();
+            $dis_student->assign_student_id = $assign_student->id;
+            $dis_student->fee_category_id = '1';
+            $dis_student->discount = $request->discount;
+            $dis_student->save();
+            
+
+        });
+        $notification = array(
+            'message' =>'Student Promotion updated successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('student.registration.view')->with($notification);
+
+    }
+    public function studentDetails($student_id){
+        $data['details'] = AssignStudent::with(['student','discount'])->where('student_id',$student_id)->first();
+        //dd($data['editData']->toArray());
+
+        $pdf = PDF::loadView('backend.student.student_registration.student_details_pdf', $data);
+	    $pdf->SetProtection(['copy', 'print'], '', 'pass');
+	    return $pdf->stream('document.pdf');
+
+        return view('backend.student.student_registration.promotion',$data);
+    }
+    
+
 }
