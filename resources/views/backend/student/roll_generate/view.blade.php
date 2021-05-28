@@ -16,7 +16,8 @@
 					</div>
 		
 					<div class="box-body">
-						<form>
+						<form method="post" action="{{ route('roll.generate.store') }}">
+						@csrf
 						<div class="row">
                                     
 							<div class="col-md-4">
