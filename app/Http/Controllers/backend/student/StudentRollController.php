@@ -28,12 +28,26 @@ class StudentRollController extends Controller
         return response()->json($all_data);
     }
     public function rollStore(Request $request){
-        $class_id = $request->class_id;
-        $year_id = $request->year_id;
-        //dd($request->all());
+
+        
+        $class_id   = $request->class_id;
+        $year_id    = $request->year_id;
+        $roll       = $request->roll ; 
+        $student_id = $request->student_id ; 
+        
+        // dd($student_id);
         if($request->student_id != NULL){
             for($i=0; $i< count($request->student_id); $i++){
-                AssignStudent::where('year_id',$year_id)->where('class_id',$class_id)->where('student_id',$student_id[$i])->update(['roll' => $request->roll[$i]]);  
+                $check_exiting_roll = AssignStudent::where('year_id',$year_id)->where('class_id',$class_id)->where('roll',$request->roll[$i])->where('student_id','!=',$student_id[$i])->count() ; 
+                if($check_exiting_roll == 0){
+                    $res = AssignStudent::where('year_id',$year_id)->where('class_id',$class_id)->where('student_id',$student_id[$i])->update(['roll' => $request->roll[$i]]); 
+                    if($i== (count($request->student_id)-1)){
+                       return 1 ;
+                    }
+                }else{
+                    return 0 ;
+                }
+                
             }
         }else{
             $notification = array(
@@ -42,10 +56,6 @@ class StudentRollController extends Controller
             );
             return redirect()->back()->with($notification);
         }
-        $notification = array(
-            'message' =>'Well done, Roll generate successfully',
-            'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification);
+        
     }
 }

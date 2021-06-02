@@ -13,6 +13,7 @@ use App\Models\StudentClass;
 use App\Models\StudentGroup;
 use App\Models\StudentShift;
 use DB;
+use PDF;
 
 class RegistrationFeeController extends Controller
 {
@@ -47,7 +48,7 @@ class RegistrationFeeController extends Controller
 
     foreach ($allStudent as $key => $v) {
         $registrationfee = FeeCategoryAmount::where('fee_category_id','1')->where('class_id',$v->class_id)->first();
-        dd($registrationfee);
+        //dd($registrationfee);
         $color = 'success';
         $html[$key]['tdsource']  = '<td>'.($key+1).'</td>';
         $html[$key]['tdsource'] .= '<td>'.$v['student']['id_no'].'</td>';
@@ -69,5 +70,15 @@ class RegistrationFeeController extends Controller
     }  
    return response()->json(@$html);
 
-}
+ }
+ public function getFeePayslip(Request $request){
+    $student_id = $request->student_id;
+    $class_id = $request->class_id;
+
+    $data['details'] = AssignStudent::with(['student','discount'])->where('student_id',$student_id)->where('class_id',$class_id)->first();
+    $pdf = PDF::loadView('backend.student.reg_fee.reg_fee_pdf', $data);
+	$pdf->SetProtection(['copy', 'print'], '', 'pass');
+	return $pdf->stream('document.pdf');
+ }
+
 }

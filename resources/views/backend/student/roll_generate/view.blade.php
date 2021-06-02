@@ -16,7 +16,8 @@
 					</div>
 		
 					<div class="box-body">
-						<form method="post" action="{{ route('roll.generate.store') }}">
+						{{-- <form method="post" action="{{ route('roll.generate.store') }}"> --}}
+						<form>
 						@csrf
 						<div class="row">
                                     
@@ -78,7 +79,8 @@
 					  </table>
 				</div>
 			</div>
-			<input type="submit" class="btn btn-rounded btn-info" value="Roll Generator ">
+			<input type="button" class="btn btn-rounded btn-info" value="Roll Generator" id="role_submit">
+			<div class="alert alert-info success_role d-none mt-10 text-center" role="alert"> </div>
 			</form>
 		  </div>
 		  <!-- /.row -->
@@ -98,21 +100,59 @@
 		type: "GET",
 		data: {'year_id':year_id,'class_id':class_id},
 		success: function (data) {
+			//console.log(response);
+			
 		  $('#roll-generate').removeClass('d-none');
 		  var html = '';
 		  $.each( data, function(key, v){
+			//console.log(v.student_id);
 			html +=
 			'<tr>'+
-			'<td>'+v.student.id_no+'<input type="hidden" name="student_id[]" value="'+v.student_id+'"></td>'+
+			'<td>'+v.student.id_no+'<input type="hidden" id="student-id" name="student_id[]" value="'+v.student_id+'"></td>'+
 			'<td>'+v.student.name+'</td>'+
 			'<td>'+v.student.fname+'</td>'+
 			'<td>'+v.student.gender+'</td>'+
-			'<td><input type="text" class="form-control form-control-sm" name="roll[]" value="'+v.roll+'"></td>'+
+			'<td><input type="text" class="form-control form-control-sm" name="roll[]"  value="'+v.roll+'" ></td>'+
 			'</tr>';
 		  });
+		 
 		  html = $('#roll-generate-tr').html(html);
+		  console.log(html);
 		}
 	  });
+
+	$("#role_submit").click(function(){
+    	var student_id = $("input[name='student_id[]']")
+              .map(function(){return $(this).val();}).get();
+		var roll = $("input[name='roll[]']")
+              .map(function(){return $(this).val();}).get();
+        var token = "{{ csrf_token() }}" ;
+		$.ajax({
+			url: "{{ route('roll.generate.store')}}",
+			type: "POST",
+			data: {'year_id':year_id,'class_id':class_id,'roll':roll,'student_id':student_id,'_token':token},
+			success: function (data) {
+				console.log(data);
+				if(data !=0){
+					$('.success_role').removeClass('d-none');
+					$(".success_role").html('Roll Generate Successfully') ; 
+					//location.reload();
+					setTimeout(function(){
+						window.location.reload(1);
+					}, 2000);
+				}else{
+					$('.success_role').removeClass('d-none');
+					$('.success_role').removeClass('alert-info');
+					$('.success_role').addClass('alert-danger');
+					$(".success_role").html('Roll Already Exits') ; 
+					setTimeout(function(){
+						window.location.reload(1);
+					}, 2000);
+				}
+				
+			}
+	  	});
+  	});
 	});
   
   </script>
