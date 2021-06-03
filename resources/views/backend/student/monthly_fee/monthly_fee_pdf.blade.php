@@ -29,8 +29,8 @@
 <body>
 
   @php
-    $registrationfee = App\Models\FeeCategoryAmount::where('fee_category_id','1')->where('class_id',$details->class_id)->first();
-    $originalfee = $registrationfee->amount;
+    $monthlyfee = App\Models\FeeCategoryAmount::where('fee_category_id','5')->where('class_id',$details->class_id)->first();
+    $originalfee = $monthlyfee->amount;
     $discount = $details['discount']['discount'];
     $discounttablefee = $discount/100*$originalfee;
     $finalfee = (float)$originalfee-(float)$discounttablefee;
@@ -47,12 +47,11 @@
             <img src ="{{ public_path().$image_path }}" width="200" height="100" >
           </td>
           <td>
-          <td>
               <h2>School ERP Software</h2>
               <p>School Address</p>
               <p>Phone : 90909099999</p>
               <p>Email : anwesha@gmail.com</p>
-              <p>Student Registration Fee</p>
+              <p>Student Monthly Fee</p>
           </td>
         </tr>
         
@@ -102,7 +101,7 @@
 </tr>
 <tr>
   <td>7</td>
-  <td>Registration Fee</td>
+  <td>Monthly Fee for {{ $month }}</td>
   <td>{{ $originalfee }} $</td>
  
 </tr>
