@@ -19,6 +19,7 @@ use App\Http\Controllers\backend\student\StudentRollController;
 use App\Http\Controllers\backend\student\RegistrationFeeController;
 use App\Http\Controllers\backend\student\MonthlyFeeController;
 use App\Http\Controllers\backend\student\ExamFeeController;
+use App\Http\Controllers\backend\employee\EmpRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,8 +41,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
 
+Route::group(['middleware' => 'auth'], function(){
 // user management all routes
-
 Route::prefix('users')->group( function(){
     Route::get('/view', [UserController::class, 'userView'])->name('user.view');
     Route::get('/add', [UserController::class, 'userAdd'])->name('user.add');
@@ -169,4 +170,13 @@ Route::prefix('students')->group( function(){
     Route::get('/exam/fee/classwise/data', [ExamFeeController::class, 'getClasswiseData'])->name('student.exam.fee.classwise.get');
     Route::get('/exam/fee/payslip', [ExamFeeController::class, 'getFeePayslip'])->name('student.exam.fee.payslip');
 });
+Route::prefix('employee')->group( function(){
+    Route::get('/registration/view', [EmpRegistrationController::class, 'view'])->name('employee.registration.view');
+    Route::get('/registration/add', [EmpRegistrationController::class, 'add'])->name('employee.registration.add');
+    Route::post('/registration/store', [EmpRegistrationController::class, 'store'])->name('employee.registration.store');
+    Route::get('/registration/edit/{employee_id}', [EmpRegistrationController::class, 'edit'])->name('employee.registration.edit');
+    Route::post('/registration/update/{employee_id}', [EmpRegistrationController::class, 'update'])->name('employee.registration.update');
+});
+
+}); //end middleware auth route
 

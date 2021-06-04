@@ -72,6 +72,7 @@ class StudentRegistrationController extends Controller
             $user->address = $request->address;
             $user->gender = $request->gender;
             $user->religion = $request->religion;
+            $user->code = $request->code;
             $user->dob = date('Y-m-d',strtotime($request->dob));
             
              
