@@ -53,7 +53,7 @@
 								
 								<td>
                                     <a href="{{ route('employee.registration.edit',$emp->id) }}" class="btn btn-rounded btn-info mb-5">Edit</a>
-                                    <a href="{{ route('designation.delete',$emp->id) }}" class="btn btn-rounded btn-danger mb-5" id="del_btn">Delete</a>
+                                    <a target="_blank" href="{{ route('employee.registration.details',$emp->id) }}" class="btn btn-rounded btn-danger mb-5">Details</a>
                                 </td>
 								
 							</tr>

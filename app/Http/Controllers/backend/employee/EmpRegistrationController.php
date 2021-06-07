@@ -142,4 +142,10 @@ class EmpRegistrationController extends Controller
             );
             return redirect()->route('employee.registration.view')->with($notification);
     }
+    public function details($employee_id){
+        $data['details'] = User::find($employee_id);
+        $pdf = PDF::loadView('backend.employee.emp_reg.emp_details_pdf', $data);
+	    $pdf->SetProtection(['copy', 'print'], '', 'pass');
+	    return $pdf->stream('document.pdf');
+    }
 }

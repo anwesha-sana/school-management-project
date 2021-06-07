@@ -176,6 +176,7 @@ Route::prefix('employee')->group( function(){
     Route::post('/registration/store', [EmpRegistrationController::class, 'store'])->name('employee.registration.store');
     Route::get('/registration/edit/{employee_id}', [EmpRegistrationController::class, 'edit'])->name('employee.registration.edit');
     Route::post('/registration/update/{employee_id}', [EmpRegistrationController::class, 'update'])->name('employee.registration.update');
+    Route::get('/registration/details/{employee_id}', [EmpRegistrationController::class, 'details'])->name('employee.registration.details');
 });
 
 }); //end middleware auth route
